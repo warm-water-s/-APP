@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>AI 智能衣橱 · V1.0 可交互原型</title>
+<style>
+:root{
+  --bg:#f7f4ef; --surface:#fffefa; --canvas:#ebe2d7; --ink:#292723; --muted:#8f887f;
+  --accent:#bb7066; --accent-dark:#9d524b; --light-accent:#f9ece9;
+  --border:#e9e2d8; --green:#618575; --green-bg:#eaf2ec;
+  --shadow:0 20px 70px rgba(58,45,33,.11);
+}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink)}
+button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #bb7066;outline-offset:2px}
+.ao-workspace{min-height:100vh;background:radial-gradient(circle at 12% 15%,#eee5da 0,transparent 34%),radial-gradient(circle at 90% 80%,#f4e7e6 0,transparent 31%),#f7f4ef;display:flex;align-items:center;justify-content:center;gap:44px;padding:36px}
+.ao-aside{width:288px;align-self:center;flex:none}.ao-identity{display:flex;align-items:center;gap:12px;margin-bottom:28px}.ao-brandmark{width:46px;height:46px;display:grid;place-items:center;border-radius:16px;background:#33302d;color:#fff;font-size:22px}
+.ao-overline{font-size:11px;letter-spacing:.18em;font-weight:800;color:#ad796c}.ao-aside h1{font-size:31px;line-height:1.18;letter-spacing:-1px;margin:10px 0 14px}
+.ao-aside p{font-size:13px;line-height:1.85;color:#746e68;margin:0 0 22px}.ao-side-label{font-size:11px;font-weight:800;letter-spacing:.09em;color:#92877e;margin:24px 0 9px}
+.ao-side-link{border:1px solid transparent;background:transparent;display:flex;gap:12px;align-items:center;width:100%;text-align:left;padding:10px 13px;border-radius:14px;margin:3px 0;color:#6f675f;font-size:13px}
+.ao-side-link:hover,.ao-side-link.active{background:#fffdf8;border-color:#e8ddd2;color:#302c28;box-shadow:0 4px 14px #e5d8ca60}
+.ao-side-link .n{font-size:11px;color:#af8178;font-weight:750;width:18px}
+.ao-side-note{background:#fffefaad;border:1px solid #e9e2d7;padding:14px;border-radius:17px;color:#837a71;font-size:12px;line-height:1.7;margin-top:25px}
+.ao-phone{position:relative;width:406px;height:min(840px,calc(100vh - 52px));min-height:640px;display:flex;flex-direction:column;background:var(--surface);border:7px solid #2d2b2b;outline:1px solid #c8c1ba;border-radius:40px;overflow:hidden;box-shadow:var(--shadow);flex:none}
+.ao-status{height:33px;flex:none;padding:10px 23px 0;display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:750;background:var(--surface);z-index:2}
+.ao-scroll{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;overscroll-behavior:contain;background:var(--surface)}.ao-scroll::-webkit-scrollbar{display:none}
+.ao-navbar{height:72px;flex:none;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #eee8df;background:#fffefa;z-index:3;padding-bottom:5px}
+.ao-tab{border:0;background:none;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;color:#aaa198;font-size:10px;font-weight:650}
+.ao-tab.active{color:var(--accent)}.ao-tab svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7}
+.ao-topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 20px 8px;gap:12px}
+.ao-mark{font-weight:850;font-size:18px;letter-spacing:-.4px}.ao-mark em{font-style:normal;color:var(--accent)}.ao-mini-tag{padding:7px 11px;border-radius:30px;background:var(--light-accent);font-size:10px;font-weight:750;color:var(--accent-dark)}
+.ao-iconbtn{border:1px solid var(--border);background:#fff;border-radius:12px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;flex:none;font-size:17px;color:#524d48}
+.ao-content{padding:0 20px 26px}.ao-h1{font-size:26px;font-weight:850;line-height:1.28;margin:8px 0 5px;letter-spacing:-.7px}.ao-sub{font-size:12px;color:var(--muted);line-height:1.55;margin:0}
+.ao-section-head{display:flex;align-items:center;justify-content:space-between;margin:22px 0 11px}.ao-section-head h2{font-size:16px;letter-spacing:-.25px;margin:0}.ao-section-head .aside{color:var(--muted);font-size:11px}
+.ao-figure{height:361px;border-radius:26px;position:relative;overflow:hidden;background:linear-gradient(156deg,#f2e9df 5%,#eadfd2 100%);margin-top:17px}
+.ao-figure:before{content:"";position:absolute;inset:18px;border:1px solid #ffffff8c;border-radius:19px;pointer-events:none}
+.ao-figure:after{content:"";position:absolute;bottom:-55px;left:-40px;width:160px;height:160px;border-radius:100%;border:1px solid #ffffff77;pointer-events:none}
+.ao-figure-label{position:absolute;top:17px;left:18px;font-size:10px;font-weight:800;letter-spacing:.1em;color:#a49182}
+.ao-figure-svg{height:100%;width:100%;position:absolute;top:0;left:0;pointer-events:none}
+.ao-hot{position:absolute;background:#fffdf5ec;border:1px solid #f2e4d8;border-radius:20px;box-shadow:0 4px 13px #56433213;padding:7px 8px;display:flex;align-items:center;gap:5px;color:#64554d;font-size:10px;font-weight:750;white-space:nowrap;z-index:2}
+.ao-hot:hover{background:#fff;border-color:#dcb3a8}.ao-hot .dot{width:17px;height:17px;border-radius:50%;background:#d5b1a3;display:grid;place-items:center;color:#fff;font-size:12px}
+.ao-hot.hat{top:14%;right:5%}.ao-hot.top{top:31%;left:4%}.ao-hot.outer{top:42%;right:3%}.ao-hot.bottom{top:65%;left:4%}.ao-hot.shoes{top:80%;right:4%}
+.ao-figure-note{position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:10px;color:#9b8b7d}
+.ao-rail{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0 4px}.ao-rail::-webkit-scrollbar{display:none}
+.ao-pill{border:1px solid #e6dfd5;background:#fff;border-radius:50px;padding:10px 14px;white-space:nowrap;color:#69625c;font-size:12px;font-weight:750}
+.ao-pill.active{background:#352f2d;border-color:#352f2d;color:#fff}
+.ao-outfit-slots{display:flex;flex-direction:column;gap:7px}
+.ao-slot{display:flex;align-items:center;gap:8px;border:1px solid var(--border);padding:8px 10px;border-radius:15px;background:#fff}
+.ao-slot-image{width:37px;height:37px;flex:none;border-radius:11px;background:#f1eae2;display:grid;place-items:center;overflow:hidden}
+.ao-slot-main{flex:1;min-width:0}.ao-slot-name{font-size:12px;font-weight:750;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ao-slot-desc{font-size:10px;color:#988c81;margin-top:3px}
+.ao-lock{padding:6px 9px;border:1px solid var(--border);border-radius:15px;background:#fff;color:#a0958b;font-size:11px}
+.ao-lock.active{color:#ac6159;background:#fff0ee;border-color:#f0d4cd}
+.ao-primary{width:100%;border:0;border-radius:15px;padding:14px 16px;min-height:48px;background:var(--accent);color:#fff;font-weight:800;font-size:13px;box-shadow:0 5px 13px #b96a6030}
+.ao-primary:hover{background:var(--accent-dark)}
+.ao-secondary{width:100%;background:#fff;border:1px solid var(--border);color:#61564e;border-radius:15px;padding:12px 14px;min-height:46px;font-size:12px;font-weight:750}
+.ao-actions{display:flex;gap:9px;margin:14px 0}.ao-actions>*{flex:1}
+.ao-tip{background:#f9f2ec;border-radius:13px;color:#958478;font-size:11px;line-height:1.65;padding:11px 13px;margin-top:12px}
+.ao-reco{background:#fff;box-shadow:0 3px 20px #4734260a;border:1px solid #eee4d9;border-radius:20px;padding:14px;margin-top:12px}
+.ao-reco-top{display:flex;justify-content:space-between;align-items:center}.ao-badge{display:inline-flex;gap:4px;align-items:center;background:#edf4ec;color:#628375;border-radius:20px;padding:5px 8px;font-weight:800;font-size:10px}.ao-count{font-size:11px;color:#a09285}
+.ao-minirow{display:flex;gap:7px;margin:10px 0}
+.ao-mini-piece{height:67px;flex:1;border-radius:12px;background:#f3ede6;display:grid;place-items:center;overflow:hidden}
+.ao-reco-desc{font-size:11px;color:#8c7e73;line-height:1.75}
+.ao-mini-btn{border:0;background:transparent;color:var(--accent-dark);font-size:12px;font-weight:800;padding:7px 0}
+.ao-closet-controls{display:flex;align-items:center;gap:10px;margin:14px 0 13px}
+.ao-search{background:#f4efe9;border:1px solid transparent;border-radius:13px;padding:12px;width:100%;font-size:12px;color:#403933}
+.ao-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.ao-gcard{text-align:left;border:1px solid #ede6dc;background:#fff;border-radius:19px;padding:8px;min-width:0}
+.ao-gcard:active{transform:scale(.985)}.ao-gimg{height:127px;background:#f2ede7;border-radius:13px;display:grid;place-items:center;overflow:hidden}
+.ao-gimg svg{width:74%;height:90%}.ao-gcard .name{font-weight:760;font-size:12px;padding:10px 3px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ao-gcard .meta{color:#a1958c;font-size:10px;padding:0 3px 5px}
+.ao-category-count{display:inline-block;margin:12px 0 0;font-size:11px;color:#958a80}
+.ao-floating-add{position:sticky;bottom:14px;margin:0 0 0 auto;display:grid;place-items:center;background:var(--accent);border:0;color:white;border-radius:20px;width:52px;height:52px;font-size:25px;box-shadow:0 10px 24px #bb706660;z-index:2}
+.ao-routebar{padding:10px 20px 16px;display:flex;align-items:center;gap:11px}
+.ao-routebar .ttl{font-size:15px;font-weight:800;flex:1}
+.ao-routelead{padding:0 20px 2px}
+.ao-entry{display:flex;align-items:center;gap:13px;width:100%;text-align:left;background:#fff;border:1px solid #eae0d5;border-radius:18px;padding:15px;margin:10px 0}
+.ao-entry-icon{display:grid;place-items:center;width:47px;height:47px;flex:none;background:#f7ebe5;color:#b26860;border-radius:15px;font-size:22px}
+.ao-entry-main{flex:1}.ao-entry-main b{display:block;font-size:13px;margin-bottom:5px}.ao-entry-main small{font-size:11px;color:#a49486;line-height:1.6}
+.ao-form{display:flex;flex-direction:column;gap:15px;margin:17px 0 10px}.ao-field label{font-size:12px;font-weight:760;display:block;margin-bottom:8px}.ao-field input,.ao-field select{width:100%;height:45px;border:1px solid #e7ddd1;background:#fff;border-radius:12px;padding:0 12px;font-size:12px;color:#504b45}
+.ao-upload{border:1.5px dashed #d7b9af;background:#fbf5f0;border-radius:20px;min-height:178px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:9px;color:#b77469;font-size:12px;text-align:center;position:relative;overflow:hidden}
+.ao-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.ao-upload .big{font-size:32px}.ao-upload .sub{color:#aa9c90;font-size:10px}
+.ao-import-preview{height:160px;border-radius:18px;background:#f2eae1;display:grid;place-items:center;overflow:hidden;margin:12px 0}.ao-import-preview img{height:100%;max-width:100%;object-fit:contain}
+.ao-colors{display:flex;gap:10px;flex-wrap:wrap}
+.ao-swatch{width:30px;height:30px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px #ddd1c6}
+.ao-swatch.active{box-shadow:0 0 0 2px var(--accent)}
+.ao-tagpick{display:flex;flex-wrap:wrap;gap:7px}.ao-tag{padding:8px 11px;border-radius:20px;border:1px solid var(--border);background:#fff;color:#79716a;font-size:11px}
+.ao-tag.active{color:#a75b52;background:#faebe7;border-color:#eac8c2}
+.ao-large-product{height:275px;border-radius:22px;background:#eee7df;display:grid;place-items:center;margin:6px 0 19px;overflow:hidden}
+.ao-large-product svg{height:80%;width:65%}.ao-large-product img{width:100%;height:100%;object-fit:contain}
+.ao-data{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid #f1ebe4;font-size:12px}
+.ao-data span:first-child{color:#9a9188}.ao-data span:last-child{font-weight:650}
+.ao-saved-card{background:#fff;border:1px solid #efe6dc;padding:10px;display:flex;gap:12px;border-radius:19px;text-align:left;width:100%;margin:10px 0}
+.ao-saved-thumb{width:98px;height:104px;background:#eae2d7;border-radius:14px;flex:none;overflow:hidden}
+.ao-saved-thumb svg{height:100%;width:100%}.ao-saved-meta{display:flex;flex-direction:column;justify-content:center;gap:9px}
+.ao-saved-meta b{font-size:14px}.ao-saved-meta span{font-size:11px;color:#a49386}
+.ao-profile-top{padding:18px 0 23px;display:flex;align-items:center;gap:15px}.ao-profile-avatar{width:61px;height:61px;border-radius:19px;background:#efdbce;display:grid;place-items:center;font-size:29px}.ao-profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:6px 0 23px}
+.ao-stat{border:1px solid #eee7dc;border-radius:16px;padding:16px 6px;text-align:center}.ao-stat b{font-size:21px;display:block}.ao-stat small{font-size:10px;color:#a19489}
+.ao-menuitem{width:100%;border:0;border-bottom:1px solid #f1eae1;background:#fff;padding:17px 3px;display:flex;gap:13px;text-align:left;align-items:center;color:#4b4640;font-size:13px}
+.ao-menuitem span:nth-child(2){flex:1}.ao-menuitem .arr{color:#aba097}
+.ao-empty{text-align:center;padding:45px 25px 24px;color:#9b8e81}.ao-empty .big{font-size:38px;margin-bottom:12px}.ao-empty h3{font-size:17px;color:#5e554e}.ao-empty p{font-size:12px;line-height:1.8}
+.ao-overlay{position:absolute;inset:33px 0 0;background:#201c1b73;display:flex;flex-direction:column;justify-content:flex-end;z-index:9;animation:fade .15s ease}
+.ao-sheet{background:#fffdf9;border-radius:25px 25px 0 0;padding:14px 19px 22px;max-height:82%;overflow-y:auto;box-shadow:0 -8px 24px #30241d28}
+.ao-sheet-handle{width:42px;height:4px;background:#e3d8cf;border-radius:8px;margin:0 auto 17px}.ao-sheet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}.ao-sheet-head h3{font-size:18px;margin:0}
+.ao-sheet-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.ao-sheet .ao-gimg{height:103px}
+.ao-toast{position:absolute;bottom:90px;left:50%;transform:translateX(-50%);padding:11px 17px;border-radius:30px;background:#342f2b;color:#fff;font-size:11px;white-space:nowrap;z-index:11;box-shadow:0 7px 25px #2e231b46}
+.ao-small-muted{color:#a1968b;font-size:11px;line-height:1.75}.ao-divider{height:1px;background:#f0e9e1;margin:17px 0}
+.ao-welcome{padding:31px 24px 40px;min-height:100%;display:flex;flex-direction:column;align-items:center;text-align:center}
+.ao-welcome-art{height:295px;width:100%;border-radius:25px;background:#ede3d7;margin:31px 0 23px;position:relative;overflow:hidden}
+.ao-welcome-art svg{height:100%;width:100%}.ao-welcome h2{font-size:29px;line-height:1.3;margin:5px 0}.ao-welcome p{font-size:13px;line-height:1.9;color:#93877b}
+.ao-spacer{height:25px}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@media(max-width:760px){
+  html,body{height:100%;overflow:hidden}.ao-workspace{height:100dvh;min-height:0;padding:0;display:block;background:#fffefa}
+  .ao-aside{display:none}.ao-phone{height:100dvh;min-height:0;width:100%;border:0;border-radius:0;outline:0;box-shadow:none}
+}
+
+.ao-figure-svg > svg{display:block;width:100%;height:100%}
+.ao-slot-image svg{width:90%;height:90%}
+.ao-mini-piece svg{display:block;width:85%;height:85%;max-height:62px}
+.ao-import-preview svg{display:block;width:100%;height:100%}
+.ao-mini-piece img{width:100%;height:100%;object-fit:contain}
+
+/* Expanded mobile touch targets for high-frequency outfit controls. */
+.ao-hot{min-height:42px}
+.ao-pill{min-height:42px}
+.ao-lock{min-height:36px}
+.ao-tag{min-height:38px}
+</style>
+</head>
+<body>
+<div id="ao-app" class="ao-workspace"></div>
+<script>
+(function(){
+"use strict";
+const root=document.getElementById("ao-app");
+const categories=[{id:"all",label:"全部"},{id:"top",label:"上衣"},{id:"outer",label:"外套"},{id:"bottom",label:"下装"},{id:"dress",label:"连衣裙"},{id:"shoes",label:"鞋子"},{id:"hat",label:"帽子"}];
+const styles=[{id:"minimal",label:"简约",en:"MINIMAL"},{id:"korean",label:"韩系",en:"KOREAN"},{id:"street",label:"街头",en:"STREET"},{id:"commute",label:"通勤",en:"COMMUTE"},{id:"retro",label:"复古",en:"VINTAGE"},{id:"sport",label:"运动休闲",en:"SPORTY"}];
+const palette=["#F0ECE4","#373842","#657FA6","#B7A48D","#AE9D80","#C2D1C8","#B4776B","#7E8A79","#C9A878","#E4DDD0"];
+const items=[
+{id:"t1",category:"top",name:"米白色基础衬衫",color:"#F0ECE4",sub:"衬衫",tags:["minimal","korean","commute"],season:["春","秋"],fit:"常规"},
+{id:"t2",category:"top",name:"炭灰宽松T恤",color:"#464750",sub:"T恤",tags:["street","minimal","sport"],season:["夏","春"],fit:"宽松"},
+{id:"t3",category:"top",name:"浅蓝条纹衬衫",color:"#88A6C0",sub:"衬衫",tags:["korean","commute","minimal"],season:["春","秋"],fit:"宽松"},
+{id:"t4",category:"top",name:"鼠尾草绿卫衣",color:"#889F90",sub:"卫衣",tags:["sport","street"],season:["春","秋","冬"],fit:"宽松"},
+{id:"o1",category:"outer",name:"燕麦色短风衣",color:"#BDA98E",sub:"风衣",tags:["minimal","commute","retro"],season:["春","秋"],fit:"常规"},
+{id:"o2",category:"outer",name:"深灰西装外套",color:"#4A4B50",sub:"西装",tags:["commute","minimal"],season:["春","秋"],fit:"宽松"},
+{id:"o3",category:"outer",name:"橄榄色工装夹克",color:"#76836E",sub:"夹克",tags:["street","retro"],season:["秋","冬"],fit:"宽松"},
+{id:"b1",category:"bottom",name:"深蓝色直筒西裤",color:"#41475D",sub:"西裤",tags:["minimal","commute","korean"],season:["春","秋","冬"],fit:"直筒"},
+{id:"b2",category:"bottom",name:"复古蓝牛仔裤",color:"#718EAE",sub:"牛仔裤",tags:["street","retro","korean"],season:["春","夏","秋"],fit:"直筒"},
+{id:"b3",category:"bottom",name:"米色阔腿休闲裤",color:"#BBA88F",sub:"休闲裤",tags:["minimal","korean","commute"],season:["春","秋"],fit:"宽松"},
+{id:"b4",category:"bottom",name:"黑色A字半身裙",color:"#3B3B42",sub:"半身裙",tags:["korean","commute"],season:["春","夏","秋"],fit:"A字"},
+{id:"d1",category:"dress",name:"雾蓝色日常连衣裙",color:"#9AB5BF",sub:"连衣裙",tags:["korean","minimal"],season:["春","夏"],fit:"常规"},
+{id:"s1",category:"shoes",name:"奶白色低帮运动鞋",color:"#F5F1E8",sub:"运动鞋",tags:["minimal","korean","sport","street"],season:["春","夏","秋"],fit:"常规"},
+{id:"s2",category:"shoes",name:"黑色简约乐福鞋",color:"#37353A",sub:"乐福鞋",tags:["commute","minimal","korean"],season:["春","秋"],fit:"常规"},
+{id:"s3",category:"shoes",name:"焦糖色短靴",color:"#A57D5F",sub:"靴子",tags:["retro","street"],season:["秋","冬"],fit:"常规"},
+{id:"s4",category:"shoes",name:"灰绿色慢跑鞋",color:"#949D96",sub:"运动鞋",tags:["sport","street"],season:["春","夏","秋"],fit:"常规"},
+{id:"h1",category:"hat",name:"米棕色棒球帽",color:"#BAA489",sub:"棒球帽",tags:["sport","minimal","korean"],season:["春","夏","秋"],fit:"常规"},
+{id:"h2",category:"hat",name:"深蓝复古鸭舌帽",color:"#414D5E",sub:"鸭舌帽",tags:["street","retro"],season:["春","秋"],fit:"常规"}
+];
+const EMPTY={top:null,outer:null,bottom:null,dress:null,shoes:null,hat:null};
+const S={page:"home",history:[],category:"all",query:"",style:"minimal",outfit:{...EMPTY,top:"t1",bottom:"b1",shoes:"s1"},locked:{top:true,outer:false,bottom:false,dress:false,shoes:false,hat:false},
+ recs:[],recoIndex:0,saved:[{id:"out-demo",name:"周末的轻松搭配",style:"korean",pieces:{...EMPTY,top:"t3",bottom:"b3",shoes:"s1"},created:"演示收藏"}],
+ modal:null,detailId:null,savedId:null,editId:null,draft:null,capture:false,linkInput:"",preferences:["minimal","korean"],phone:"",isDemo:true,toast:""};
+let toastTimer=null;
+const nameSlot={top:"上衣",outer:"外套",bottom:"下装",dress:"连衣裙",shoes:"鞋子",hat:"帽子"};
+const find=(id)=>items.find(x=>x.id===id);
+const styleName=(id)=>styles.find(x=>x.id===id)?.label||"简约";
+const catName=(id)=>categories.find(x=>x.id===id)?.label||id;
+const esc=(s)=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const hex=(s)=>/^#[0-9a-f]{6}$/i.test(s||"")?s:"#b7aaa0";
+const pct=(item)=>item?.img?`<img alt="${esc(item.name)}" src="${esc(item.img)}" style="height:100%;width:100%;object-fit:contain"/>`:garmentSvg(item);
+function garmentSvg(item){
+ if(!item)return '<span style="color:#c8bbaf;font-size:25px">＋</span>';
+ const c=hex(item.color), base=`fill="${c}" stroke="#64574e38" stroke-width="1.3"`;
+ const shapes={
+  top:`<path ${base} d="M28 23 L42 17 Q50 24 58 17 L72 23 L89 42 L76 53 L67 42 L68 83 L32 83 L33 42 L24 53 L11 42 Z"/><path d="M42 17 Q50 35 58 17" fill="none" stroke="#fff9" stroke-width="3"/>`,
+  outer:`<path ${base} d="M26 19 L40 13 L50 22 L60 13 L74 19 L88 42 L76 51 L69 36 L69 87 L31 87 L31 36 L24 51 L12 42 Z"/><path d="M40 13 L50 27 L43 44 L36 20 M60 13 L50 27 L57 44 L64 20" fill="#ffffff55" stroke="#fff7" stroke-width="2"/><path d="M50 27V86" stroke="#fff9" stroke-width="2"/>`,
+  bottom: item.sub==="半身裙"?`<path ${base} d="M31 13 L69 13 L83 82 Q50 90 17 82 Z"/><path d="M31 19H69" stroke="#fff8" stroke-width="2"/>`:`<path ${base} d="M31 12 H69 L75 83 L55 85 L50 39 L45 85 L25 83 Z"/><path d="M50 15V39" stroke="#fff7" stroke-width="2"/>`,
+  dress:`<path ${base} d="M29 16 L43 10 Q50 19 57 10 L71 16 L86 37 L74 44 L67 33 L77 86 Q50 95 23 86 L33 33 L26 44 L14 37 Z"/><path d="M43 10 Q50 28 57 10" fill="none" stroke="#fff9" stroke-width="3"/>`,
+  shoes:`<path ${base} d="M15 45 L38 38 L51 55 Q54 65 44 69 H10 Q5 65 10 55 Z M56 45 L78 38 L90 55 Q95 65 88 69 H52 Q48 65 54 55 Z"/><path d="M10 65H48 M52 65H90" stroke="#ffffffbb" stroke-width="4"/>`,
+  hat:`<path ${base} d="M24 51 Q25 24 50 24 Q75 24 76 51 Z"/><path d="M15 52 Q50 61 85 52" stroke="${c}" stroke-width="11" stroke-linecap="round" fill="none"/><path d="M33 43Q50 27 67 43" fill="none" stroke="#fff6" stroke-width="2"/>`
+ };
+ return `<svg viewBox="0 0 100 100" role="img" aria-label="${esc(item.name)}">${shapes[item.category]||shapes.top}</svg>`;
+}
+function avatarSvg(p,small=false){
+ const top=find(p.top),out=find(p.outer),bt=find(p.bottom),dress=find(p.dress),shoe=find(p.shoes),hat=find(p.hat);
+ const tc=hex(top?.color||"#EEE5D9"),oc=hex(out?.color||"#B8AA99"),bc=hex(bt?.color||"#A99D8E"),dc=hex(dress?.color||"#C7B8B2"),sc=hex(shoe?.color||"#EEE9E1"),hc=hex(hat?.color||"#CAB9A6");
+ const isSkirt=bt?.sub==="半身裙";
+ const torso=dress?`<path d="M100 154 L119 145 Q140 155 162 145 L182 154 L202 204 L181 214 L168 186 L186 351 Q140 371 94 351 L113 186 L99 214 L78 204 Z" fill="${dc}" stroke="#4b3d361d" stroke-width="1.6"/><path d="M123 151 Q140 169 157 151" stroke="#fff9" stroke-width="3" fill="none"/><path d="M108 276 Q140 290 173 276" stroke="#fff5" stroke-width="2" fill="none"/>`:
+ `<path d="M98 156 L120 146 Q140 159 161 146 L183 156 L200 218 L179 225 L168 188 L167 285 Q139 296 112 285 L111 190 L101 225 L80 218 Z" fill="${tc}" stroke="#53453723" stroke-width="1.5"/><path d="M121 148 Q140 167 160 148" fill="none" stroke="#fff9" stroke-width="3"/><path d="M112 282 Q141 287 167 282" stroke="#ffffff6b" stroke-width="2"/>`;
+ const bot=dress?``:isSkirt?`<path d="M112 283 H169 L192 365 Q141 384 88 365 Z" fill="${bc}" stroke="#332b2b19" stroke-width="1.5"/><path d="M112 291H169" stroke="#fff7" stroke-width="2"/>`:
+ `<path d="M112 279 Q141 286 168 279 L171 313 L165 426 L145 427 L139 322 L133 427 L111 426 L106 313 Z" fill="${bc}" stroke="#302d342a" stroke-width="1.5"/><path d="M139 285V327 M119 298L115 404 M157 298L160 405" stroke="#fff5" fill="none" stroke-width="1.5"/>`;
+ const jacket=out?`<path d="M100 150 L120 141 L137 159 L131 290 L104 285 L108 187 L102 223 L81 214 Z" fill="${oc}" stroke="#463c341f"/><path d="M180 150 L161 141 L143 159 L149 290 L176 285 L171 187 L179 223 L199 214 Z" fill="${oc}" stroke="#463c341f"/><path d="M120 141 L139 163 L127 200 L110 155 Z M161 141 L141 163 L153 200 L171 155 Z" fill="#fff4" stroke="#fff5" stroke-width="1.3"/><circle cx="124" cy="234" r="2" fill="#f1e5d7"/><circle cx="157" cy="234" r="2" fill="#f1e5d7"/>`:"";
+ return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 480" aria-label="2D 穿搭示意人物" role="img">
+ <defs><linearGradient id="skin-v1" x1="0" x2=".7" y1="0" y2="1"><stop offset="0%" stop-color="#ecc6ad"/><stop offset="100%" stop-color="#d5a48b"/></linearGradient></defs>
+ <ellipse cx="140" cy="458" rx="70" ry="9" fill="#bcb0a36b"/>
+ <path d="M104 80 Q90 36 109 24 Q134 1 168 21 Q191 39 179 96 L171 133 L109 133 Z" fill="#4d3933"/>
+ <path d="M116 276 L138 278 L134 429 L115 431 Z M145 278 L166 276 L168 429 L146 431 Z" fill="url(#skin-v1)"/>
+ <path d="M91 166 Q76 192 78 239 L94 314 Q98 323 104 318 Q110 313 105 306 L98 240 L110 195 Z M189 166 Q204 192 203 239 L187 314 Q183 323 177 318 Q171 313 176 306 L182 240 L171 195 Z" fill="url(#skin-v1)"/>
+ <path d="M128 114 L151 114 L154 158 L125 158 Z" fill="url(#skin-v1)"/>
+ <ellipse cx="140" cy="77" rx="40" ry="52" fill="url(#skin-v1)"/>
+ <ellipse cx="100" cy="84" rx="5" ry="9" fill="#d3a289"/><ellipse cx="180" cy="84" rx="5" ry="9" fill="#d3a289"/>
+ <path d="M100 75 Q94 23 125 21 Q157 5 177 37 L179 72 Q165 64 155 43 Q140 65 100 75 Z" fill="#4b3732"/>
+ <path d="M120 80 Q126 75 132 80 M148 80 Q154 75 160 80" fill="none" stroke="#69534a" stroke-width="2" stroke-linecap="round"/>
+ <circle cx="127" cy="83" r="1.6" fill="#4d403b"/><circle cx="154" cy="83" r="1.6" fill="#4d403b"/>
+ <path d="M139 87 L136 99 L142 100" fill="none" stroke="#c08f78" stroke-width="1.3" stroke-linecap="round"/>
+ <path d="M132 108 Q140 113 149 107" fill="none" stroke="#a86765" stroke-width="1.7" stroke-linecap="round"/>
+ ${bot}${torso}${jacket}
+ <path d="M112 420 L134 421 L135 445 Q114 451 101 448 Q96 444 104 438 Z M145 421 L167 420 L176 437 Q184 445 177 448 Q159 451 141 445 Z" fill="${sc}" stroke="#695e5433" stroke-width="1.7"/>
+ <path d="M101 443 Q117 449 135 443 M141 443 Q159 449 179 443" fill="none" stroke="#fff" stroke-width="4"/>
+ ${hat?`<path d="M97 57 Q95 18 140 14 Q184 18 184 58 Z" fill="${hc}" stroke="#66584733" stroke-width="1.5"/><path d="M96 58 Q140 65 193 54" fill="none" stroke="${hc}" stroke-width="12" stroke-linecap="round"/><path d="M121 25 Q140 17 161 27" fill="none" stroke="#fff5" stroke-width="2"/>`:""}
+ </svg>`;
+}
+function flash(message){
+ S.toast=message; draw(); clearTimeout(toastTimer);toastTimer=setTimeout(()=>{S.toast="";draw()},2100);
+}
+function setPage(page){
+ if(page!==S.page)S.history.push(S.page);
+ S.page=page;S.modal=null;draw();
+ const sc=root.querySelector(".ao-scroll");if(sc)sc.scrollTop=0;
+}
+function back(){S.page=S.history.pop()||"home";S.modal=null;draw()}
+function btn(text,act,extra="",css="ao-secondary"){return `<button class="${css}" data-action="${act}" ${extra}>${text}</button>`}
+function tabIcon(i){
+ const paths={home:'<path d="m3 10 9-7 9 7v11H3z"/><path d="M9 21v-7h6v7"/>',wardrobe:'<path d="m9 4 3 3 3-3 6 4-3 4v9H6v-9L3 8z"/><path d="M9 4q3-4 6 0"/>',saved:'<path d="M20.8 4.8c-2.5-2.5-6.5-1.7-8.8 1-2.3-2.7-6.3-3.5-8.8-1-2.8 2.8-2 6.9.3 9.2L12 22l8.5-8c2.3-2.3 3.1-6.4.3-9.2Z"/>',profile:'<circle cx="12" cy="8" r="4"/><path d="M4 22v-2c0-4 3-6 8-6s8 2 8 6v2"/>'};
+ return `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[i]}</svg>`;
+}
+function mainTabs(){return `<nav class="ao-navbar" aria-label="底部导航">${[["home","首页"],["wardrobe","衣橱"],["saved","穿搭"],["profile","我的"]].map(([id,label])=>`<button class="ao-tab ${S.page===id?"active":""}" data-action="nav" data-page="${id}">${tabIcon(id)}<span>${label}</span></button>`).join("")}</nav>`}
+function routebar(title){return `<div class="ao-routebar"><button class="ao-iconbtn" data-action="back" aria-label="返回">‹</button><div class="ttl">${title}</div><span class="ao-mini-tag">MVP V1.0</span></div>`}
+function pageTop(){return `<div class="ao-topbar"><div class="ao-mark">衣橱<em>·</em>灵感 <span style="font-size:10px;color:#b0a397;font-weight:550">OUTFIT LAB</span></div><button class="ao-iconbtn" data-action="nav" data-page="profile" aria-label="个人中心">☻</button></div>`}
+function outfitCardPieces(o){return ["top","dress","bottom","shoes"].map(k=>o[k]?`<div class="ao-mini-piece">${pct(find(o[k]))}</div>`:"").join("")}
+function activeSlots(){
+ const arr=["top","outer","bottom","dress","shoes","hat"];
+ return `<div class="ao-outfit-slots">${arr.filter(s=>S.outfit[s] || ["top","bottom","shoes"].includes(s)).map(s=>{
+ const item=find(S.outfit[s]);return `<div class="ao-slot"><button class="ao-slot-image" data-action="picker" data-slot="${s}" aria-label="选择${nameSlot[s]}">${pct(item)}</button><div class="ao-slot-main"><div class="ao-slot-name">${item?esc(item.name):"尚未选择"+nameSlot[s]}</div><div class="ao-slot-desc">${nameSlot[s]} ${item?"· "+esc(item.sub):"· 点击添加"}</div></div><button class="ao-lock ${S.locked[s]?"active":""}" data-action="lock" data-slot="${s}" aria-label="${S.locked[s]?"解锁":"锁定"}${nameSlot[s]}">${S.locked[s]?"🔒 已锁":"♧ 锁定"}</button></div>`}).join("")}</div>`;
+}
+function home(){
+ const r=S.recs[S.recoIndex];
+ return `${pageTop()}<div class="ao-content">
+ <div style="display:flex;justify-content:space-between;align-items:end"><div><div style="color:#b2897b;font-size:11px;font-weight:800;letter-spacing:.08em;margin-top:9px">HELLO, YOUR WARDROBE</div><h1 class="ao-h1">今天，穿点不一样的。</h1><p class="ao-sub">挑一件喜欢的，让衣橱帮你完成其余搭配。</p></div></div>
+ <div class="ao-figure" aria-label="当前服装的 2D 人物示意">
+ <span class="ao-figure-label">MY DAILY LOOK</span><div class="ao-figure-svg">${avatarSvg(S.outfit)}</div>
+ ${[["hat","hat"],["top","top"],["outer","outer"],["bottom","bottom"],["shoes","shoes"]].map(([cl,s])=>`<button class="ao-hot ${cl}" data-action="picker" data-slot="${s}"><span class="dot">＋</span>${nameSlot[s]}</button>`).join("")}
+ <span class="ao-figure-note">点击身体旁的标签换装 · 示意图不等于真实试穿</span></div>
+ <div class="ao-section-head"><h2>想要什么风格？</h2><span class="aside">6 种风格</span></div>
+ <div class="ao-rail">${styles.map(s=>`<button data-action="style" data-style="${s.id}" class="ao-pill ${S.style===s.id?"active":""}">${s.label}</button>`).join("")}</div>
+ <div class="ao-section-head"><h2>当前穿搭</h2><button class="ao-mini-btn" data-action="clearoutfit">清空选择</button></div>${activeSlots()}
+ <div class="ao-actions">${btn("✦ 一键智能搭配","recommend","","ao-primary")}</div>
+ ${r?`<section class="ao-reco"><div class="ao-reco-top"><span class="ao-badge">✧ 为你推荐</span><span class="ao-count">方案 ${S.recoIndex+1} / ${S.recs.length}</span></div><div class="ao-minirow">${outfitCardPieces(r)}</div><div class="ao-reco-desc">${esc(recoReason(r))}</div><div class="ao-actions" style="margin-bottom:0">${btn("↻ 换一套","nextrec")}${btn("♡ 保存这套","save","","ao-primary")}</div></section>`:
+ `<div style="margin-top:4px">${btn("♡ 保存当前搭配","save")}</div>`}
+ <div class="ao-tip">✦ 原型说明：AI 识别、推荐规则和淘宝链接处理在此使用本地演示逻辑。人物采用统一 2D 模板，不表示真实试衣效果。</div>
+ </div>`;
+}
+function filteredItems(){return items.filter(x=>(S.category==="all"||x.category===S.category)&&(!S.query||x.name.toLowerCase().includes(S.query.toLowerCase())||x.sub.includes(S.query)))}
+function wardrobeGrid(){const fil=filteredItems();return fil.length?fil.map(i=>`<button class="ao-gcard" data-action="detail" data-id="${i.id}"><div class="ao-gimg">${pct(i)}</div><div class="name">${esc(i.name)}</div><div class="meta">${catName(i.category)} · ${esc(i.sub)}</div></button>`).join(""):`<div class="ao-empty" style="grid-column:1/-1"><div class="big">🪡</div><h3>还没有找到衣服</h3><p>换个分类或添加第一件单品吧</p></div>`}
+function wardrobe(){
+ return `${pageTop()}<div class="ao-content"><div style="display:flex;justify-content:space-between;align-items:center"><div><h1 class="ao-h1">我的数字衣橱</h1><p class="ao-sub">把喜欢的衣服，都放在这里。</p></div><span class="ao-mini-tag">${items.length} 件单品</span></div>
+ <div class="ao-closet-controls"><input class="ao-search" data-bind="search" placeholder="⌕  搜索单品名称或类别" value="${esc(S.query)}" aria-label="搜索衣服"/></div>
+ <div class="ao-rail">${categories.map(c=>`<button class="ao-pill ${S.category===c.id?"active":""}" data-action="category" data-cat="${c.id}">${c.label}</button>`).join("")}</div>
+ <span class="ao-category-count" id="ao-result-count">共 ${filteredItems().length} 件服装 · 点击查看或修改</span>
+ <div class="ao-grid" id="ao-ward-grid">${wardrobeGrid()}</div>
+ <button class="ao-floating-add" data-action="nav" data-page="importChoice" aria-label="添加服装">＋</button></div>`;
+}
+function importChoice(){
+ return `${routebar("添加衣服")}<div class="ao-content"><h1 class="ao-h1">衣服从哪里来？</h1><p class="ao-sub">选择一种方式，把新单品加入你的衣橱。</p>
+ ${[["📷","拍摄衣服","使用手机相机拍一张衣服照片","importImage","camera"],["▧","从相册选择","上传购买记录、商品图或自己拍摄的照片","importImage","gallery"],["🔗","商品链接导入","粘贴淘宝等商品链接，可用图片补充","importLink"]].map(a=>`<button class="ao-entry" data-action="${a[4]?"openPhoto":"nav"}" data-mode="${a[4]||""}" data-page="${a[3]}"><span class="ao-entry-icon">${a[0]}</span><span class="ao-entry-main"><b>${a[1]}</b><small>${a[2]}</small></span><span style="color:#b3a99f">›</span></button>`).join("")}
+ <div class="ao-tip">第一版按“一张图片、一件衣服”处理。多件服装同框时，请先裁剪到单件。</div></div>`;
+}
+function importImage(){
+ return `${routebar("上传服装图片")}<div class="ao-content"><h1 class="ao-h1">${S.capture?"拍摄衣服照片":"让衣橱认识这件衣服"}</h1><p class="ao-sub">选择清晰的服装照片，下一步可以检查和修改分类信息。</p>
+ <label class="ao-upload" style="margin-top:24px"><span class="big">▧</span><strong>点按上传服装图片</strong><span class="sub">JPG / PNG / WebP · 单件服装效果更好</span><input type="file" accept="image/*" ${S.capture?'capture="environment"':""} data-file="photo" aria-label="上传服装照片"/></label>
+ <div class="ao-actions">${btn("使用演示单品体验流程","demoimport")}</div>
+ <div class="ao-tip">演示版不调用真实 AI，导入后会提供可编辑的模拟识别字段。真实产品将使用异步上传、图片识别、失败重试与人工确认。</div></div>`;
+}
+function importLink(){
+ return `${routebar("商品链接导入")}<div class="ao-content"><h1 class="ao-h1">复制商品链接，加入衣橱</h1><p class="ao-sub">支持先记录商品来源，图片无法获取时由你自行补充。</p>
+ <div class="ao-form"><div class="ao-field"><label>商品链接</label><input data-bind="url" type="url" placeholder="粘贴 https:// 开头的商品链接" value="${esc(S.linkInput)}"/></div>
+ ${btn("继续填写服装信息","parse","","ao-primary")}</div>
+ <div class="ao-tip">🔒 这是前端流程演示：不会访问淘宝、抓取商品，也不验证平台 API 权限。真实接入时必须使用获授权的接口，并提供上传截图 / 商品图的兜底。</div>
+ </div>`;
+}
+function editPage(){
+ const d=S.draft||{name:"",category:"top",sub:"T恤",color:palette[0],tags:["minimal"],season:["春","夏","秋"],fit:"常规",img:null,demo:false,source:""};
+ return `${routebar(S.editId?"编辑服装":"确认识别信息")}<div class="ao-content">
+ <h1 class="ao-h1">${S.editId?"编辑这件衣服":"确认一下这件衣服"}</h1><p class="ao-sub">${S.editId?"修改的信息会用于下一次智能搭配。":"下面是模拟识别生成的初始信息，可直接修改。"} </p>
+ <div class="ao-import-preview">${d.img?`<img src="${esc(d.img)}" alt="已选择的服装图片"/>`:`<div style="width:125px;height:130px">${garmentSvg(d)}</div>`}</div>
+ <div style="display:flex;gap:9px"><label class="ao-secondary" style="display:grid;place-items:center;flex:1;position:relative;cursor:pointer">上传 / 更换图片<input type="file" accept="image/*" data-file="edit-photo" style="position:absolute;inset:0;opacity:0;width:100%;cursor:pointer"/></label>${btn("使用演示素材","useDemoImage")}</div>
+ <div class="ao-form">
+ <div class="ao-field"><label>单品名称 *</label><input data-bind="draft-name" value="${esc(d.name)}" placeholder="例如：米白色宽松衬衫"/></div>
+ <div class="ao-field"><label>服装类别 *</label><select data-bind="draft-category">${categories.filter(c=>c.id!=="all").map(c=>`<option value="${c.id}" ${d.category===c.id?"selected":""}>${c.label}</option>`).join("")}</select></div>
+ <div class="ao-field"><label>子类别</label><input data-bind="draft-sub" value="${esc(d.sub)}" placeholder="例如：衬衫、牛仔裤"/></div>
+ <div class="ao-field"><label>主要颜色</label><div class="ao-colors">${palette.map(c=>`<button class="ao-swatch ${d.color===c?"active":""}" style="background:${c}" aria-label="选择颜色${c}" data-action="setcolor" data-color="${c}"></button>`).join("")}</div></div>
+ <div class="ao-field"><label>风格标签（可多选）</label><div class="ao-tagpick">${styles.map(x=>`<button class="ao-tag ${d.tags.includes(x.id)?"active":""}" data-action="tag" data-style="${x.id}">${x.label}</button>`).join("")}</div></div>
+ <div class="ao-field"><label>适用季节（可多选）</label><div class="ao-tagpick">${["春","夏","秋","冬"].map(x=>`<button class="ao-tag ${d.season.includes(x)?"active":""}" data-action="season" data-season="${x}">${x}</button>`).join("")}</div></div>
+ ${d.source?`<div class="ao-small-muted">来源链接已记录：${esc(d.source.slice(0,75))}${d.source.length>75?"…":""}</div>`:""}
+ ${btn(S.editId?"保存修改":"保存到我的衣橱","savegarment","","ao-primary")}</div>
+ <div class="ao-tip">${d.img||d.demo?"已添加图片或演示素材。":"请上传图片，或选择“使用演示素材”以体验后续流程。"}</div>
+ </div>`;
+}
+function detailPage(){
+ const d=find(S.detailId);if(!d)return `<div class="ao-content">这件衣服已不存在</div>`;
+ return `${routebar("服装详情")}<div class="ao-content">
+ <div class="ao-large-product">${pct(d)}</div>
+ <h1 class="ao-h1">${esc(d.name)}</h1><p class="ao-sub">我的衣橱 · ${catName(d.category)}</p>
+ <div class="ao-section-head"><h2>服装信息</h2></div>
+ ${[["类别",catName(d.category)],["细分类",d.sub],["主颜色",d.color],["风格",d.tags.map(styleName).join(" / ")||"未设置"],["适用季节",(d.season||[]).join(" / ")||"未设置"],["版型",d.fit||"未设置"]].map(([a,b])=>`<div class="ao-data"><span>${a}</span><span>${esc(b)}</span></div>`).join("")}
+ <div class="ao-actions">${btn("✎ 编辑服装","editgarment")}${btn("穿这件去搭配","usethis","","ao-primary")}</div>
+ ${btn("删除这件衣服","askdelete")} </div>`;
+}
+function savedPage(){
+ return `${pageTop()}<div class="ao-content"><h1 class="ao-h1">珍藏的搭配</h1><p class="ao-sub">喜欢的组合，随时一键再穿。</p>
+ <div class="ao-section-head"><h2>我的穿搭</h2><span class="aside">${S.saved.length} 套</span></div>
+ ${S.saved.length?S.saved.map(o=>`<button class="ao-saved-card" data-action="saveddetail" data-id="${o.id}"><div class="ao-saved-thumb">${avatarSvg(o.pieces,true)}</div><div class="ao-saved-meta"><b>${esc(o.name)}</b><span>${styleName(o.style)} · ${esc(o.created)}</span><span style="color:#bb7066;font-size:11px;font-weight:800">查看搭配 →</span></div></button>`).join(""):`<div class="ao-empty"><div class="big">♡</div><h3>暂时还没有收藏</h3><p>从首页生成并保存第一套穿搭吧。</p>${btn("去首页搭配","gohome","","ao-primary")}</div>`}
+ </div>`;
+}
+function savedDetail(){
+ const o=S.saved.find(x=>x.id===S.savedId);if(!o)return `${routebar("穿搭已删除")}`;
+ const missing=Object.values(o.pieces).filter(Boolean).filter(id=>!find(id));
+ return `${routebar("我的穿搭详情")}<div class="ao-content">
+ <div class="ao-figure" style="margin-top:6px;height:328px"><span class="ao-figure-label">${styleName(o.style).toUpperCase()} LOOK</span><div class="ao-figure-svg">${avatarSvg(o.pieces)}</div></div>
+ <h1 class="ao-h1" style="margin-top:17px">${esc(o.name)}</h1><p class="ao-sub">${styleName(o.style)} · ${esc(o.created)}</p>
+ <div class="ao-section-head"><h2>这套衣服</h2></div>
+ <div class="ao-outfit-slots">${Object.keys(o.pieces).filter(k=>o.pieces[k]).map(k=>{const i=find(o.pieces[k]);return `<div class="ao-slot"><div class="ao-slot-image">${pct(i)}</div><div class="ao-slot-main"><div class="ao-slot-name">${i?esc(i.name):"单品已删除"}</div><div class="ao-slot-desc">${nameSlot[k]}</div></div></div>`}).join("")}</div>
+ ${missing.length?`<div class="ao-tip">部分单品已经删除。可以将其作为不完整搭配载入并补充。</div>`:""}
+ <div class="ao-actions">${btn("♡ 删除收藏","deleteSaved")}${btn("穿上这套","wearSaved","","ao-primary")}</div></div>`;
+}
+function profile(){
+ return `${pageTop()}<div class="ao-content"><h1 class="ao-h1">我的穿搭空间</h1><div class="ao-profile-top"><div class="ao-profile-avatar">☻</div><div><b style="font-size:16px">演示衣橱用户</b><div class="ao-small-muted">当前为可交互原型 · 不连接真实账号</div></div></div>
+ <div class="ao-profile-stats"><div class="ao-stat"><b>${items.length}</b><small>衣橱单品</small></div><div class="ao-stat"><b>${S.saved.length}</b><small>收藏穿搭</small></div><div class="ao-stat"><b>${S.preferences.length}</b><small>偏好风格</small></div></div>
+ <div class="ao-section-head"><h2>偏好与设置</h2></div>
+ ${[["✦","我的风格偏好","preferences"],["◎","新手引导预览","welcome"],["⚿","模拟登录流程","login"],["◈","隐私与数据说明","privacy"]].map(([i,t,p])=>`<button class="ao-menuitem" data-action="nav" data-page="${p}"><span style="font-size:19px;color:#bb7066">${i}</span><span>${t}</span><span class="arr">›</span></button>`).join("")}
+ <div class="ao-tip">本原型的服装、收藏和设置保存在当前页面运行内存中。刷新页面会恢复预置演示数据。</div></div>`;
+}
+function preferences(){
+ return `${routebar("我的风格偏好")}<div class="ao-content"><h1 class="ao-h1">找到属于你的风格</h1><p class="ao-sub">可以多选，正式版将把这些偏好用于搭配排序。</p>
+ <div class="ao-section-head"><h2>你喜欢哪些风格？</h2></div><div class="ao-tagpick">${styles.map(x=>`<button style="padding:14px 16px;font-size:13px" class="ao-tag ${S.preferences.includes(x.id)?"active":""}" data-action="pref" data-style="${x.id}">${x.label}</button>`).join("")}</div>
+ <div class="ao-spacer"></div>${btn("保存偏好","savepref","","ao-primary")}</div>`;
+}
+function privacy(){
+ return `${routebar("隐私与数据")}<div class="ao-content"><h1 class="ao-h1">让衣橱只属于你</h1><p class="ao-sub">以下是正式产品应具备的数据处理原则。</p>
+ ${[["图片数据","用户上传的衣服照片应当加密传输、隔离存储，并支持删除。"],["第三方 AI","需要告知所调用服务的用途、数据类型以及相应处理规则。"],["商品链接","仅在平台许可范围内处理商品信息，失败时提供图片上传兜底。"],["账号与注销","正式产品应提供完整的账号安全、数据导出或删除与注销流程。"]].map(a=>`<div style="padding:16px 0;border-bottom:1px solid #eee5db"><b style="font-size:14px">${a[0]}</b><p class="ao-small-muted">${a[1]}</p></div>`).join("")}<div class="ao-tip">当前文件为离线交互演示，没有真实登录、云端存储或 AI 请求。</div></div>`;
+}
+function welcome(){
+ return `<div class="ao-welcome"><div style="align-self:flex-start;font-weight:850;font-size:18px">衣橱<span style="color:#bb7066">·</span>灵感</div>
+ <div class="ao-welcome-art">${avatarSvg({top:"t3",bottom:"b3",shoes:"s1",outer:"o1",hat:null,dress:null})}</div>
+ <span class="ao-overline">AN OUTFIT A DAY</span><h2>穿你拥有的，<br/>搭你喜欢的。</h2><p>导入自己的衣服，选择喜欢的风格。<br/>用一个小小的 2D 人物，把灵感穿出来。</p>
+ <div class="ao-actions" style="width:100%;margin-top:auto">${btn("直接体验演示衣橱","gohome","","ao-primary")}</div>${btn("模拟登录 / 注册","nav", 'data-page="login"')}</div>`;
+}
+function login(){
+ return `${routebar("登录 / 注册")}<div class="ao-content"><div class="ao-spacer"></div><span class="ao-overline">WELCOME BACK</span><h1 class="ao-h1">把每一天的穿搭<br/>都收进衣橱。</h1><p class="ao-sub">演示版提供页面和输入体验，不发送短信。</p>
+ <div class="ao-form" style="margin-top:34px"><div class="ao-field"><label>手机号码</label><input data-bind="phone" inputmode="tel" placeholder="请输入手机号（演示）" value="${esc(S.phone)}"/></div><div class="ao-field"><label>验证码</label><input placeholder="演示版无需真实验证码" inputmode="numeric"/></div>
+ ${btn("进入演示衣橱","gohome","","ao-primary")}</div><div class="ao-tip">正式版需要接入合规的认证服务，并处理验证码频控、异常登录和账号注销。</div></div>`;
+}
+function candidateMatches(o){
+ return Object.entries(S.locked).every(([k,v])=>!v||!S.outfit[k]||o[k]===S.outfit[k]);
+}
+function evalScore(o){
+ const keys=Object.values(o).filter(Boolean).map(find).filter(Boolean);
+ let v=keys.reduce((n,x)=>n+(x.tags.includes(S.style)?6:0),0);
+ v+=o.outer?0.5:1;
+ const colors=new Set(keys.filter(x=>x.category!=="hat").map(x=>x.color));
+ v+=Math.max(0,4-colors.size)*1.1;
+ if(o.top==="t1"&&o.bottom==="b1")v+=.2;
+ if(S.style==="commute"&&o.shoes==="s2")v+=3;
+ if(S.style==="sport"&&o.shoes==="s4")v+=3;
+ if(S.style==="retro"&&o.shoes==="s3")v+=3;
+ return v;
+}
+function computeRecommendations(){
+ const sets=[],tops=items.filter(x=>x.category==="top"),bots=items.filter(x=>x.category==="bottom"),
+ shoes=items.filter(x=>x.category==="shoes"), dresses=items.filter(x=>x.category==="dress"),
+ outerOptions=[null,...items.filter(x=>x.category==="outer").map(x=>x.id)];
+ const hatValue=S.locked.hat?S.outfit.hat:null;
+ for(const t of tops)for(const b of bots)for(const s of shoes)for(const o of outerOptions){
+  const candidate={...EMPTY,top:t.id,bottom:b.id,shoes:s.id,outer:o,hat:hatValue};
+  if(candidateMatches(candidate))sets.push({candidate,score:evalScore(candidate)});
+ }
+ for(const d of dresses)for(const s of shoes)for(const o of outerOptions){
+  const candidate={...EMPTY,dress:d.id,shoes:s.id,outer:o,hat:hatValue};
+  if(candidateMatches(candidate))sets.push({candidate,score:evalScore(candidate)});
+ }
+ sets.sort((a,b)=>b.score-a.score);
+ const picked=[];
+ for(const x of sets){
+  if(picked.length===3)break;
+  const diff=o=>Object.keys(EMPTY).filter(k=>o[k]!==x.candidate[k]).length;
+  if(picked.every(y=>diff(y)>=2))picked.push(x.candidate);
+ }
+ if(picked.length<3)for(const x of sets){if(picked.length===3)break;if(!picked.some(y=>JSON.stringify(y)===JSON.stringify(x.candidate)))picked.push(x.candidate)}
+ S.recs=picked;S.recoIndex=0;
+ if(picked[0]) S.outfit={...picked[0]};
+}
+function recoReason(o){
+ const i=find(o.top||o.dress),b=find(o.bottom),s=find(o.shoes);
+ return `${styleName(S.style)}搭配建议：${i?.name||"连衣裙"}${b?" + "+b.name:""}${s?" + "+s.name:""}。优先从你已有的衣服中寻找颜色与风格协调的组合。`;
+}
+function complete(o){return !!o.shoes&&(!!o.dress||!!(o.top&&o.bottom))}
+function picker(slot){
+ S.modal={type:"picker",slot};draw();
+}
+function pickerSheet(){
+ const m=S.modal; const slot=m.slot; const arr=items.filter(x=>x.category===slot);
+ return `<div class="ao-overlay" data-action="closeOverlay"><div class="ao-sheet" data-stop="true"><div class="ao-sheet-handle"></div>
+ <div class="ao-sheet-head"><div><h3>选择${nameSlot[slot]}</h3><p class="ao-small-muted" style="margin:5px 0 0">从你已拥有的服装中选择</p></div><button class="ao-iconbtn" data-action="close">×</button></div>
+ <div class="ao-sheet-grid">${arr.map(i=>`<button class="ao-gcard" data-action="pickitem" data-slot="${slot}" data-id="${i.id}" style="${S.outfit[slot]===i.id?"border-color:#bb7066":""}"><div class="ao-gimg">${pct(i)}</div><div class="name">${esc(i.name)}</div><div class="meta">${S.outfit[slot]===i.id?"✓ 当前穿着":"点击试穿"}</div></button>`).join("")}</div>
+ <div class="ao-actions">${btn("移除这个位置的单品","remove",'data-slot="'+slot+'"')}${btn("＋ 添加新衣服","toimport","","ao-primary")}</div></div></div>`;
+}
+function confirmSheet(){
+ const id=S.modal?.id,d=find(id);
+ return `<div class="ao-overlay" data-action="closeOverlay"><div class="ao-sheet" data-stop="true"><div class="ao-sheet-handle"></div><h3>确认删除吗？</h3><p class="ao-small-muted">删除「${esc(d?.name||"这件衣服")}」后，包含该衣服的收藏套装将显示缺失状态。此操作在演示版中不可撤销。</p><div class="ao-actions">${btn("取消","close")}${btn("确认删除","confirmdelete","","ao-primary")}</div></div></div>`;
+}
+function modalHtml(){return S.modal?(S.modal.type==="picker"?pickerSheet():confirmSheet()):""}
+function renderAside(){
+ const links=[["home","首页 · 2D 换装"],["wardrobe","数字衣橱"],["importChoice","服装导入流程"],["saved","搭配收藏"],["profile","个人中心"],["welcome","新手欢迎页"],["preferences","风格偏好"]];
+ return `<aside class="ao-aside"><div class="ao-identity"><span class="ao-brandmark">✦</span><div><div style="font-size:15px;font-weight:850">衣橱 · 灵感</div><div class="ao-overline">OUTFIT LAB / MVP</div></div></div>
+ <div class="ao-overline">INTERACTIVE PROTOTYPE</div><h1>每一件旧衣服，<br/>都有新的可能。</h1><p>一个以个人衣橱为中心的 AI 穿搭应用。右侧为可点击的移动端流程原型，支持真实页面跳转、2D 人物换装、切换风格、推荐与收藏。</p>
+ <div class="ao-side-label">页面快速导航</div>
+ ${links.map(([id,label],idx)=>`<button class="ao-side-link ${S.page===id?"active":""}" data-action="nav" data-page="${id}"><span class="n">0${idx+1}</span><span>${label}</span><span style="margin-left:auto">↗</span></button>`).join("")}
+ <div class="ao-side-note"><b style="color:#6a5a4d">演示数据说明</b><br/>预置 ${items.length} 件示例服装。图片、分类、穿搭推荐及登录均为本地模拟，不会调用外部 AI 或电商接口。上传本地图片可体验录入页面。</div></aside>`;
+}
+function renderPage(){
+ switch(S.page){
+ case"welcome":return welcome();case"login":return login();case"home":return home();case"wardrobe":return wardrobe();
+ case"importChoice":return importChoice();case"importImage":return importImage();case"importLink":return importLink();
+ case"edit":return editPage();case"detail":return detailPage();case"saved":return savedPage();
+ case"savedDetail":return savedDetail();case"profile":return profile();case"preferences":return preferences();
+ case"privacy":return privacy();default:return home();
+ }
+}
+function draw(){
+ const previousScroll=root.querySelector(".ao-scroll")?.scrollTop||0;
+ const main=renderPage(),isMain=["home","wardrobe","saved","profile"].includes(S.page);
+ root.innerHTML=`${renderAside()}<div class="ao-phone"><div class="ao-status"><span>9:41</span><span>●●● ▰</span></div><main class="ao-scroll">${main}</main>${isMain?mainTabs():""}${modalHtml()}${S.toast?`<div class="ao-toast" role="status">${esc(S.toast)}</div>`:""}</div>`;
+ const currentScroll=root.querySelector(".ao-scroll");if(currentScroll)currentScroll.scrollTop=previousScroll;
+}
+function selectItem(slot,id){
+ if(slot==="dress"){S.outfit.top=null;S.outfit.bottom=null;S.locked.top=false;S.locked.bottom=false;}
+ if(slot==="top"||slot==="bottom"){S.outfit.dress=null;S.locked.dress=false;}
+ S.outfit[slot]=id;S.locked[slot]=true;S.recs=[];S.recoIndex=0;S.modal=null;
+ draw();
+}
+function startDraft(demo,source=""){
+ S.editId=null;S.draft={name:demo?"米白色新单品":"新导入的服装",category:"top",sub:"衬衫",color:"#F0ECE4",tags:["minimal"],season:["春","秋"],fit:"常规",img:null,demo:!!demo,source};
+ setPage("edit");
+}
+function saveGarment(){
+ const d=S.draft;
+ if(!d?.name?.trim())return flash("请填写服装名称");
+ if(!d?.category)return flash("请选择服装类别");
+ if(!d?.img&&!d.demo)return flash("请上传图片或使用演示素材");
+ if(S.editId){
+  const i=find(S.editId);if(i)Object.assign(i,{name:d.name.trim(),category:d.category,sub:d.sub||catName(d.category),color:d.color,tags:[...d.tags],season:[...d.season],fit:d.fit,img:d.img||i.img,source:d.source});
+  S.detailId=S.editId;S.editId=null;S.draft=null;setPage("detail");flash("服装信息已更新");
+ }else{
+  items.unshift({id:"u"+Date.now(),name:d.name.trim(),category:d.category,sub:d.sub||catName(d.category),color:d.color,tags:[...d.tags],season:[...d.season],fit:d.fit,img:d.img||null,source:d.source});
+  S.category="all";S.query="";S.draft=null;setPage("wardrobe");flash("新衣服已加入演示衣橱");
+ }
+}
+function togg(a,val){const pos=a.indexOf(val);pos>=0?a.splice(pos,1):a.push(val)}
+root.addEventListener("click",(ev)=>{
+ const b=ev.target.closest("[data-action]");if(!b||!root.contains(b))return;
+ if(b.dataset.action==="closeOverlay"&&ev.target.closest("[data-stop]"))return;
+ const a=b.dataset.action,id=b.dataset.id,slot=b.dataset.slot,page=b.dataset.page;
+ switch(a){
+ case"nav":setPage(page);break;
+ case"openPhoto":S.capture=b.dataset.mode==="camera";setPage("importImage");break;
+ case"back":back();break;
+ case"gohome":setPage("home");break;
+ case"picker":picker(slot);break;
+ case"pickitem":selectItem(slot,id);break;
+ case"close":case"closeOverlay":S.modal=null;draw();break;
+ case"remove":
+  S.outfit[slot]=null;S.locked[slot]=false;S.recs=[];S.modal=null;draw();break;
+ case"lock":
+  if(!S.outfit[slot])return flash("先选择一件"+nameSlot[slot]);
+  S.locked[slot]=!S.locked[slot];draw();break;
+ case"style":S.style=b.dataset.style;S.recs=[];draw();break;
+ case"recommend":
+  computeRecommendations();if(!S.recs.length)return flash("衣服不足，暂时无法组成完整搭配");
+  flash("已从个人衣橱生成搭配");root.querySelector(".ao-reco")?.scrollIntoView({behavior:"smooth",block:"nearest"});break;
+ case"nextrec":
+  if(!S.recs.length)computeRecommendations();
+  else S.recoIndex=(S.recoIndex+1)%S.recs.length;
+  if(S.recs.length)S.outfit={...S.recs[S.recoIndex]};
+  draw();break;
+ case"save":
+  if(!complete(S.outfit))return flash("请先选好上装、下装和鞋子（或连衣裙与鞋子）");
+  if(S.saved.some(x=>x.style===S.style&&JSON.stringify(x.pieces)===JSON.stringify(S.outfit)))return flash("这套穿搭已经收藏过啦");
+  S.saved.unshift({id:"out-"+Date.now(),name:styleName(S.style)+" · 我的搭配 "+(S.saved.length+1),style:S.style,pieces:{...S.outfit},created:"刚刚保存"});
+  flash("已保存到「我的穿搭」");break;
+ case"clearoutfit":S.outfit={...EMPTY};S.locked=Object.fromEntries(Object.keys(EMPTY).map(k=>[k,false]));S.recs=[];draw();break;
+ case"category":S.category=b.dataset.cat;draw();break;
+ case"detail":S.detailId=id;setPage("detail");break;
+ case"editgarment":
+  {const g=find(S.detailId);if(!g)break;S.editId=g.id;S.draft={...g,tags:[...g.tags],season:[...(g.season||[])],demo:!g.img};setPage("edit");}break;
+ case"usethis":
+  {const g=find(S.detailId);if(!g)break;selectItem(g.category,g.id);setPage("home");}break;
+ case"askdelete":S.modal={type:"confirm",id:S.detailId};draw();break;
+ case"confirmdelete":{
+  const did=S.modal.id,idx=items.findIndex(x=>x.id===did);if(idx>=0)items.splice(idx,1);
+  for(const k of Object.keys(S.outfit))if(S.outfit[k]===did){S.outfit[k]=null;S.locked[k]=false}
+  S.modal=null;setPage("wardrobe");flash("已删除服装");break;
+ }
+ case"demoimport":startDraft(true);break;
+ case"parse":
+  try{const url=new URL(S.linkInput.trim());if(!["http:","https:"].includes(url.protocol))throw Error();startDraft(false,S.linkInput.trim());}
+  catch(_){flash("请输入有效的 http(s) 商品链接");}break;
+ case"setcolor":if(S.draft){S.draft.color=b.dataset.color;draw()}break;
+ case"tag":if(S.draft){togg(S.draft.tags,b.dataset.style);draw()}break;
+ case"season":if(S.draft){togg(S.draft.season,b.dataset.season);draw()}break;
+ case"reselectphoto":{const file=root.querySelector('input[data-file="edit-photo"]');if(file)file.click();else flash("请使用下方图片上传入口");}break;
+ case"useDemoImage":if(S.draft){S.draft.demo=true;draw()}break;
+ case"savegarment":saveGarment();break;
+ case"toimport":S.modal=null;setPage("importChoice");break;
+ case"saveddetail":S.savedId=id;setPage("savedDetail");break;
+ case"wearSaved":{
+  const s=S.saved.find(x=>x.id===S.savedId);if(!s)break;
+  S.outfit={...s.pieces};for(const k of Object.keys(S.outfit))if(S.outfit[k]&&!find(S.outfit[k]))S.outfit[k]=null;
+  S.style=s.style;S.locked=Object.fromEntries(Object.keys(EMPTY).map(k=>[k,false]));S.recs=[];
+  setPage("home");flash("已应用收藏穿搭");break;
+ }
+ case"deleteSaved":S.saved=S.saved.filter(x=>x.id!==S.savedId);setPage("saved");flash("已删除收藏");break;
+ case"pref":togg(S.preferences,b.dataset.style);draw();break;
+ case"savepref":setPage("profile");flash("偏好已更新（仅演示）");break;
+ }
+});
+root.addEventListener("input",ev=>{
+ const el=ev.target,k=el.dataset.bind;
+ if(k==="search"){S.query=el.value;const grid=root.querySelector("#ao-ward-grid"),cnt=root.querySelector("#ao-result-count");if(grid)grid.innerHTML=wardrobeGrid();if(cnt)cnt.textContent="共 "+filteredItems().length+" 件服装 · 点击查看或修改";}
+ if(k==="url")S.linkInput=el.value;
+ if(k==="phone")S.phone=el.value;
+ if(k==="draft-name"&&S.draft)S.draft.name=el.value;
+ if(k==="draft-sub"&&S.draft)S.draft.sub=el.value;
+});
+root.addEventListener("change",ev=>{
+ const el=ev.target;
+ if(el.dataset.bind==="draft-category"&&S.draft){S.draft.category=el.value;}
+ if(el.dataset.file){
+  const file=el.files?.[0];if(!file)return;
+  if(!file.type.startsWith("image/"))return flash("请选择图片文件");
+  if(file.size>10*1024*1024)return flash("图片超出 10MB 限制");
+  const reader=new FileReader();
+  reader.onload=()=>{
+    if(S.page==="edit"&&S.draft){S.draft.img=reader.result;S.draft.demo=false;draw();}
+    else{startDraft(false);S.draft.img=reader.result;draw();}
+  };
+  reader.readAsDataURL(file);
+ }
+});
+draw();
+})();
+</script>
+</body>
+</html>

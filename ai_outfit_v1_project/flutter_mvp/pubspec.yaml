@@ -1,0 +1,19 @@
+name: ai_outfit_mvp
+description: AI 智能衣橱 V1.0 — 2D 虚拟换装与个人衣橱搭配 MVP（本地演示数据）
+publish_to: none
+version: 0.3.1+4
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  shared_preferences: ^2.5.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true

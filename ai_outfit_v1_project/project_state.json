@@ -1,0 +1,94 @@
+{
+  "project_id": "ai-outfit-mvp-v1",
+  "project_name": "AI 智能衣橱 / AI Outfit",
+  "version": "0.3.1",
+  "baseline_date": "2026-10-17",
+  "updated_on": "2026-10-18",
+  "product_scope": "2D virtual avatar / wardrobe-owned outfit recommendation / save outfits",
+  "artifacts": {
+    "prd": "docs/PRD_V1.0.md",
+    "ui_ux": "docs/UI_UX_V1.0.md",
+    "interactive_html": "prototype/interactive_prototype.html",
+    "flutter_source": "flutter_mvp",
+    "ai_handoff": "docs/AI_HANDOFF.md",
+    "validation_report": "docs/TECH_VALIDATION_REPORT.md"
+  },
+  "toolchain": {
+    "flutter": "3.47.7 stable",
+    "dart": "3.13.5",
+    "os": "Windows 11 25H2",
+    "android_sdk": null,
+    "jdk": null,
+    "browsers": ["Chrome 154", "Edge 155"]
+  },
+  "verified": {
+    "flutter_analyze": {
+      "status": "PASS",
+      "issues": 0
+    },
+    "flutter_test": {
+      "status": "PASS",
+      "passed": 51,
+      "failed": 0,
+      "groups": ["T01-T15", "W01-W10", "R01-R09", "E01-E06", "P01-P11"]
+    },
+    "flutter_web_build": {
+      "status": "PASS",
+      "target": "lib/main_web_demo.dart"
+    },
+    "flutter_web_render": {
+      "status": "PASS",
+      "checks": 11,
+      "failed": 0,
+      "browser": "Edge headless via Playwright",
+      "viewports": ["390x844", "320x700", "430x900"]
+    },
+    "local_persistence": {
+      "status": "PASS (unit + mock)",
+      "package": "shared_preferences 2.5.6",
+      "schema_version": 1,
+      "stored": ["wardrobe", "saved_outfits", "preferred_styles", "welcome_seen"],
+      "draft_persisted": false,
+      "tests": ["P01-P11"]
+    },
+    "data_management": {
+      "status": "PASS (unit + widget)",
+      "export": "snapshot JSON copied to clipboard",
+      "delete": "clears wardrobe/saved/preferences/draft and persists empty snapshot",
+      "tests": ["P09-P11", "W10"],
+      "real_device_verified": false
+    },
+    "independent_state_contract": {
+      "passed": 16,
+      "failed": 0,
+      "runtime": "Node.js"
+    },
+    "browser_prototype": {
+      "passed": 12,
+      "failed": 0,
+      "runtime": "Chrome/Playwright"
+    }
+  },
+  "not_verified": [
+    "Android/iOS build",
+    "Android/iOS real device",
+    "real device safe area / accessibility screen reader",
+    "performance p50/p95",
+    "real-device persistence across process restart",
+    "real-device JSON export and data deletion",
+    "local schema migration",
+    "local data encryption and multi-account isolation",
+    "AI recognition API",
+    "Taobao API",
+    "backend auth and user isolation"
+  ],
+  "known_limitations": [
+    "Wardrobe/outfit/preference data is stored locally with shared_preferences; it is demo data, not a cloud account",
+    "Current outfit draft is not persisted across restarts",
+    "Image import is a UI-only demo (no camera/gallery/AI)",
+    "Product link import only validates URL format",
+    "Recommendation is deterministic local rules, not AI",
+    "Local storage is unencrypted and not account-scoped"
+  ],
+  "next_action": "Install Android SDK/JDK and run flutter build apk + device acceptance; verify real-device persistence, export and deletion; add schema migration, then implement backend repositories"
+}

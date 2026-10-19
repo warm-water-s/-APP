@@ -1,0 +1,14 @@
+server=http://127.0.0.1:8899 build=D:\Desktop\AI_Outfit\ai_outfit_v1_project\flutter_mvp\build\web
+WEB-home PASS 截图 flutter_web_home.png
+WEB-welcome PASS 截图 flutter_web_welcome.png
+WEB-wardrobe PASS 截图 flutter_web_wardrobe.png
+WEB-outfits PASS 截图 flutter_web_outfits.png
+WEB-profile PASS 截图 flutter_web_profile.png
+WEB-home-320 PASS 截图 flutter_web_home-320.png
+WEB-home-430 PASS 截图 flutter_web_home-430.png
+WEB-semantics PASS 启用 Flutter Web 语义树
+WEB-picker PASS 选衣弹层截图
+WEB-picker-title INFO 语义标题节点 0 个
+WEB-js PASS 页面异常 0 个
+WEB-console PASS 控制台错误 0 个
+RESULT pass=11 fail=0

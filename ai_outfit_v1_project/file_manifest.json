@@ -1,0 +1,439 @@
+{
+  "project": "ai-outfit-v1",
+  "version": "v0.2.0",
+  "generated_on": "2026-10-19",
+  "notes": "路径相对 ai_outfit_v1_project/。已排除 .dart_tool、build 与 android/ios/web 平台生成目录；Flutter 验证结果见 reports/。",
+  "file_count": 86,
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 332,
+      "sha256": "c49737e14403ee49b4a0f0b74e372b1f9a45914fcad794ceb9db199627f31822"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "bytes": 6929,
+      "sha256": "6faa66dfec12c9d4a08704dcba2322d3c1fde6c8c02683605823405b0fb0a931"
+    },
+    {
+      "path": "docs/adr/ADR-001-state-controller.md",
+      "bytes": 1083,
+      "sha256": "08b50c6ff4798cad4d4446137b7498fdc8ed68df63f545578d91d171bece0219"
+    },
+    {
+      "path": "docs/adr/ADR-002-avatar-layer.md",
+      "bytes": 1019,
+      "sha256": "ea0ca71c4aed95102992e5936e723e74bfe1088fae25dc7d7e69bfd0a5ce7251"
+    },
+    {
+      "path": "docs/adr/ADR-003-app-state-and-repositories.md",
+      "bytes": 2313,
+      "sha256": "c64de1868548afb4e730f3fa4681665d8e6f057c3eaff5f6dc9d20c2d76596b3"
+    },
+    {
+      "path": "docs/AI_HANDOFF.md",
+      "bytes": 6718,
+      "sha256": "f2a66260fb895a9362e19bc2cebd9d836ba78d500ad8c75b02e14d1fa51e6b64"
+    },
+    {
+      "path": "docs/ARCHITECTURE_V1.0.md",
+      "bytes": 11722,
+      "sha256": "cb5fa05b3774b6397932b110266306c8bb642c5174194f1f75e680e8996c373c"
+    },
+    {
+      "path": "docs/DEV_TASKS.md",
+      "bytes": 4231,
+      "sha256": "cff0427409e2a24251b03cfadd20a55edc7b2dc4a10edfdc0d162e6cbb0e4bed"
+    },
+    {
+      "path": "docs/FILE_INDEX.md",
+      "bytes": 6097,
+      "sha256": "31c987e62fd7c342ffd971806313fb3f1d48ce44e4799cc4af414dadd646654b"
+    },
+    {
+      "path": "docs/INTERFACES_V1.0.md",
+      "bytes": 6246,
+      "sha256": "105d8746401e5e6b6d1582ae975b6bf37d25c60d0467e7424d804105c54210a7"
+    },
+    {
+      "path": "docs/PRD_V1.0.md",
+      "bytes": 18163,
+      "sha256": "cee24e6d994a63338ecb02d100e8f3d85b2605ba0aeea775180b40418a098336"
+    },
+    {
+      "path": "docs/TECH_VALIDATION_REPORT.md",
+      "bytes": 12159,
+      "sha256": "e70a873791b15e399fd8c8b49662254e89ae1226bfea232d1f87e22cdde79eb9"
+    },
+    {
+      "path": "docs/TEST_MATRIX.md",
+      "bytes": 3654,
+      "sha256": "20d2f4e53770b7abc837383df91626a8c99b71d5e9e8def18827b381f6f10a19"
+    },
+    {
+      "path": "docs/UI_UX_V1.0.md",
+      "bytes": 26702,
+      "sha256": "dc660af148c081b3b6c6aeb42ed5f5580e5e96a837a4ee50b8671b85497c0583"
+    },
+    {
+      "path": "flutter_mvp/.gitignore",
+      "bytes": 794,
+      "sha256": "0581d23086f7283dc97d2d5bde4f60724f8115f67baa76949596790ab9800dd7"
+    },
+    {
+      "path": "flutter_mvp/.metadata",
+      "bytes": 1260,
+      "sha256": "f68751299cba2c5721013d4a4c13959b9083b76d52c7e3e078c7cd34746df5b4"
+    },
+    {
+      "path": "flutter_mvp/analysis_options.yaml",
+      "bytes": 230,
+      "sha256": "94636732324670e8e7182d01c02203ac22f30d7e0de2305a7db3b48f92f5d04a"
+    },
+    {
+      "path": "flutter_mvp/assets/README.md",
+      "bytes": 1132,
+      "sha256": "6e0ce80d7dcc7c9795545751623639497e662990e32d7e74d98d83e11c55705e"
+    },
+    {
+      "path": "flutter_mvp/lib/app.dart",
+      "bytes": 3789,
+      "sha256": "9b83b3a2b5c2f9ac25c4bccc39317c62bd6aed697fa71b82da131771e3c3b04b"
+    },
+    {
+      "path": "flutter_mvp/lib/data/app_state.dart",
+      "bytes": 6131,
+      "sha256": "e66ee669c9c2366bb2b52907151886eacaa10873249b909cc83f6a58451445ee"
+    },
+    {
+      "path": "flutter_mvp/lib/data/demo_catalog.dart",
+      "bytes": 3145,
+      "sha256": "59c83b9d918800f3188ccbe580942236615aef1063879fb17c1641196155ad3b"
+    },
+    {
+      "path": "flutter_mvp/lib/data/demo_recommendation_engine.dart",
+      "bytes": 6257,
+      "sha256": "9a68c2813872b20037a14d69de015f368c01b5c2437f9aee834b82b0b0015fa6"
+    },
+    {
+      "path": "flutter_mvp/lib/data/outfit_storage.dart",
+      "bytes": 8672,
+      "sha256": "5a904fd810a3ea51d37ceb899702515b2548fb3de566c1ab7b66e3e315dde303"
+    },
+    {
+      "path": "flutter_mvp/lib/data/saved_outfits_repository.dart",
+      "bytes": 2653,
+      "sha256": "c8eece4326843b1444474786f05269df5540e7b437a2603f982c0ca53dc1b18a"
+    },
+    {
+      "path": "flutter_mvp/lib/data/wardrobe_repository.dart",
+      "bytes": 2560,
+      "sha256": "e3698e27d36edb7bc48b87da71fbfb7e86e52e8cc5de2dfbebcdc9bcbc4fd532"
+    },
+    {
+      "path": "flutter_mvp/lib/domain/current_outfit_controller.dart",
+      "bytes": 8030,
+      "sha256": "8b9723e5288415fdd4f108477873c93a1eb3b24a949165f44d1c74d0ea23e573"
+    },
+    {
+      "path": "flutter_mvp/lib/domain/garment.dart",
+      "bytes": 2851,
+      "sha256": "6d7021a58ad278630cb5f8b7b9b1608722b22f064f973d0e81131433a08e5428"
+    },
+    {
+      "path": "flutter_mvp/lib/domain/outfit_recommendation.dart",
+      "bytes": 883,
+      "sha256": "92c79e7ca8ac13c7b538a26bdbf8d43e595c1fe013e7e76ba9f8747cf2e5f6b3"
+    },
+    {
+      "path": "flutter_mvp/lib/domain/outfit_state.dart",
+      "bytes": 2369,
+      "sha256": "d5af77787bd5f11bdca14abaa18f6c083e480ba46906e472856a2e77090087cc"
+    },
+    {
+      "path": "flutter_mvp/lib/domain/saved_outfit.dart",
+      "bytes": 1909,
+      "sha256": "73af5379ce54f7b0f3ac45d3ad3f3e800b38bbbaba611204de9e5be515b71c7a"
+    },
+    {
+      "path": "flutter_mvp/lib/main.dart",
+      "bytes": 251,
+      "sha256": "4fd16cb7f08536460741555e319bdd185ac48f61be5539abdc12146b863f1635"
+    },
+    {
+      "path": "flutter_mvp/lib/main_web_demo.dart",
+      "bytes": 628,
+      "sha256": "bc999ef03eb8aeac86ff5b7f4841402d712c7aaac15b1f3a6b17572cabcb8bdf"
+    },
+    {
+      "path": "flutter_mvp/lib/theme/app_theme.dart",
+      "bytes": 2999,
+      "sha256": "07a834af94d9ba67ad6242d986a32361cf0d5b9e649458ffd20e2c75721dc402"
+    },
+    {
+      "path": "flutter_mvp/lib/ui/avatar_canvas.dart",
+      "bytes": 11940,
+      "sha256": "d5d1e40c10c32177e0e29eed6db27a534afc2bae85795a955bf44f7c519a1394"
+    },
+    {
+      "path": "flutter_mvp/lib/ui/pages/garment_detail_page.dart",
+      "bytes": 9713,
+      "sha256": "40021e993b0e5bde16938a8b608f9036ca915a0e040f271abd2299ae5ea23bf6"
+    },
+    {
+      "path": "flutter_mvp/lib/ui/pages/garment_editor_page.dart",
+      "bytes": 12011,
+      "sha256": "fed78b94955af10cdfbcd71667bbdd7990900b9be08a4f22b44dca2b95dc868f"
+    },
+    {
+      "path": "flutter_mvp/lib/ui/pages/home_page.dart",
+      "bytes": 18566,
+      "sha256": "d9626a25449adee303455f34a84f9903c0d3c8a905611db995ee45f4b18b92e5"
+    },
+    {
+      "path": "flutter_mvp/lib/ui/pages/import_method_page.dart",
+      "bytes": 15054,
+      "sha256": "6b769b3bd79de72f9ee75d38b587842de9cb9184f94366db6ccc5c0ce683c961"
+    },
+    {
+      "path": "flutter_mvp/lib/ui/pages/login_page.dart",
+      "bytes": 5552,
+      "sha256": "c69ece3f575b72419818129dcfbc14f0a1619a3847dce22c7090f05accd36316"
+    },
+    {
+      "path": "flutter_mvp/lib/ui/pages/outfit_detail_page.dart",
+      "bytes": 7913,
+      "sha256": "c22ce5ad77111183d54a0543aff38248376b54cbbc0a04405cec40fb2d30444e"
+    },
+    {
+      "path": "flutter_mvp/lib/ui/pages/outfits_page.dart",
+      "bytes": 8407,
+      "sha256": "d6938a1f0e8528e7d10bacde92fa35911597f1e998cb01ff8809e13ced6a993b"
+    },
+    {
+      "path": "flutter_mvp/lib/ui/pages/privacy_page.dart",
+      "bytes": 7665,
+      "sha256": "bab0890bbc4ccdce9d46aa7ce4741540c6fa152887b798160cde932df373a542"
+    },
+    {
+      "path": "flutter_mvp/lib/ui/pages/profile_page.dart",
+      "bytes": 9695,
+      "sha256": "b2c16301b1b2a8200deaf0a62dc304c0b30449e79c21cca99186aea3bda0550e"
+    },
+    {
+      "path": "flutter_mvp/lib/ui/pages/style_preferences_page.dart",
+      "bytes": 2937,
+      "sha256": "2722a960ba334c9ef44a4855d404dbdd946ac0ca685d9f61ef4aaab71c2f455c"
+    },
+    {
+      "path": "flutter_mvp/lib/ui/pages/wardrobe_page.dart",
+      "bytes": 10922,
+      "sha256": "668ebb61ca89291edc50a4fbe48e0f8dc121099d741789bdf06d45bf0e6a4f6c"
+    },
+    {
+      "path": "flutter_mvp/lib/ui/pages/welcome_page.dart",
+      "bytes": 5254,
+      "sha256": "62b593c5deceee8dd9c77804528f7a101bd39deb32ca7eba9955605042fe2b6b"
+    },
+    {
+      "path": "flutter_mvp/lib/ui/widgets/app_pill.dart",
+      "bytes": 2400,
+      "sha256": "781586ec34bd1e05eb79a4c585b9db74baf7c69388d63ebcdb97fb8b9f158d1c"
+    },
+    {
+      "path": "flutter_mvp/lib/ui/widgets/confirm_dialog.dart",
+      "bytes": 697,
+      "sha256": "84f8698f65a0d40358629bc15d5b9946b5e6120ee7bebf21996e41a66dbbea77"
+    },
+    {
+      "path": "flutter_mvp/lib/ui/widgets/formatters.dart",
+      "bytes": 288,
+      "sha256": "e65018e5f9f119d6ea77abbf1f1e2b8f63907d2d46ff19a43b7ecd86956d3b49"
+    },
+    {
+      "path": "flutter_mvp/lib/ui/widgets/garment_visual.dart",
+      "bytes": 7307,
+      "sha256": "1979910e5087cc9ada9f464dab5d22575d4852a06c1174de534d5b90819a240e"
+    },
+    {
+      "path": "flutter_mvp/lib/ui/widgets/wardrobe_picker_sheet.dart",
+      "bytes": 8448,
+      "sha256": "2d6f8d064fcac55d9590c1fa71c56d3933fd3dce2fd5d2a24fe459e8a9aded22"
+    },
+    {
+      "path": "flutter_mvp/pubspec.lock",
+      "bytes": 12410,
+      "sha256": "113fb1048a49c0866731f98afed87480a7c2c8e01ad2f9e4528b7e5a342e4d96"
+    },
+    {
+      "path": "flutter_mvp/pubspec.yaml",
+      "bytes": 358,
+      "sha256": "7b648e6824c25c4ee9d4e52955000958b4e5c0914c23cbdc0707412124aea43e"
+    },
+    {
+      "path": "flutter_mvp/README.md",
+      "bytes": 3136,
+      "sha256": "59652c8c2a5eee1427cb2fcee972a8163c69894e4b81f30aebc6ea32be0d81ad"
+    },
+    {
+      "path": "flutter_mvp/test/avatar_canvas_widget_test.dart",
+      "bytes": 2059,
+      "sha256": "d79f63e77b188c86c9b00c78be702ec532a56368d0c2bc6b23447c2212f0856d"
+    },
+    {
+      "path": "flutter_mvp/test/current_outfit_controller_test.dart",
+      "bytes": 7439,
+      "sha256": "e2f5ba4b5802278c0054606de433096a73130d582034960cdbcd58eacb6d4339"
+    },
+    {
+      "path": "flutter_mvp/test/home_flow_widget_test.dart",
+      "bytes": 11273,
+      "sha256": "68358ff626c09c422e5e163b0d4508de50ed2a6122755b6ac78130395554dd42"
+    },
+    {
+      "path": "flutter_mvp/test/persistence_test.dart",
+      "bytes": 10311,
+      "sha256": "f68f133a5e87b1d54b7b703ec87b4fb1352f511416eccf750b43302ac0aac731"
+    },
+    {
+      "path": "flutter_mvp/test/recommendation_engine_test.dart",
+      "bytes": 4099,
+      "sha256": "06f21cd7e1c35ade710c001518f7d10e9f38fc611044169d44b5e1a7e15d2662"
+    },
+    {
+      "path": "flutter_mvp/test/repositories_test.dart",
+      "bytes": 5158,
+      "sha256": "9a914d0ed4842ae02ca7bae14f1f72150e7612ea5506ebd4ef7b3e2d06128e7d"
+    },
+    {
+      "path": "project_state.json",
+      "bytes": 3171,
+      "sha256": "945112a7cc9762387ee1b0585a82477788a2924ba9552f7b56bc96a16d429780"
+    },
+    {
+      "path": "prototype/interactive_prototype.html",
+      "bytes": 58308,
+      "sha256": "128131aef08d94a528e1debad62739dd081346d880ff5da955454445a33af36d"
+    },
+    {
+      "path": "prototype/preview_6screens.png",
+      "bytes": 409828,
+      "sha256": "e728cbcdc6261bbfac9a48a56f21c515644c079f075ba3b4e45f26e8931e4679"
+    },
+    {
+      "path": "README.md",
+      "bytes": 5646,
+      "sha256": "0ec99db2b08b961b478f226ab0b411d19c4f0b98368ad3141bf810fdc7938835"
+    },
+    {
+      "path": "reports/browser_avatar_verified.png",
+      "bytes": 93867,
+      "sha256": "b626e0bed6916ef3cc3d2b063d70d71ec2fc283db1ae9dd65d1dad05dbd50618"
+    },
+    {
+      "path": "reports/browser_recommend_verified.png",
+      "bytes": 60254,
+      "sha256": "b65dec1faed1c7bc6e6734a1b65924a202a326cfdb4dd81528426c85231ddf1b"
+    },
+    {
+      "path": "reports/browser_smoke_test.log",
+      "bytes": 555,
+      "sha256": "ad4dbc4fe7c4ca52861b88546c18be4265797538054655f9832c03dc7162fd14"
+    },
+    {
+      "path": "reports/flutter_analyze.log",
+      "bytes": 388,
+      "sha256": "ba223ce29aacd9e946b0c91318e0c74b4b136a1398ce7248d2554f04f4288245"
+    },
+    {
+      "path": "reports/flutter_doctor.log",
+      "bytes": 3025,
+      "sha256": "1acf2e358b140d933ce8f0722ef6ae7735d0f071d7c6be082f50c8ad5bcc0f3f"
+    },
+    {
+      "path": "reports/flutter_pub_get.log",
+      "bytes": 845,
+      "sha256": "5bb4ee6ffb3ca64dfbc2a6ee7c38ea936ae138167fcf2b86b5c19d25036fbe5e"
+    },
+    {
+      "path": "reports/flutter_test.log",
+      "bytes": 8576,
+      "sha256": "efee810e53a30149877633726b7643689a0d88273ca600667d7d7e57c9347e2e"
+    },
+    {
+      "path": "reports/flutter_web_build.log",
+      "bytes": 1595,
+      "sha256": "bbef902e2c887ac5477c7ff26bd676e81dd00e598d3b54218f437fd8f5c3abb9"
+    },
+    {
+      "path": "reports/flutter_web_home-320.png",
+      "bytes": 110899,
+      "sha256": "54032a3eaeb3958f92523e71d9b48ff6282721621a4d028e6da5bed4c0796f3d"
+    },
+    {
+      "path": "reports/flutter_web_home-430.png",
+      "bytes": 140424,
+      "sha256": "7080425c56f10e6dcc376b0417a8517233f15b13fa3a45787034e7efa6ac6bf3"
+    },
+    {
+      "path": "reports/flutter_web_home.png",
+      "bytes": 132699,
+      "sha256": "8dc67b553a81afe1ecd6ef51b136898887467c0a27763ab5981b63c9340ca944"
+    },
+    {
+      "path": "reports/flutter_web_outfits.png",
+      "bytes": 51315,
+      "sha256": "e40cedb4810b003029fb4d74848f3bc685e2a1eda08b99c5a4c366465786e910"
+    },
+    {
+      "path": "reports/flutter_web_picker.png",
+      "bytes": 88538,
+      "sha256": "3a7a4e6130df71889c62d557d833e802b0b829aa1bc46f95deac6f54e535f7c9"
+    },
+    {
+      "path": "reports/flutter_web_profile.png",
+      "bytes": 132272,
+      "sha256": "9dfa91ee5625675222f5f476e8de513f7aa49d5fbf2508ff0b53c39c62eade57"
+    },
+    {
+      "path": "reports/flutter_web_smoke_test.log",
+      "bytes": 671,
+      "sha256": "038f0ebec51c6275d7f62c19e741693c5707d28e956ecf3443dc017612097942"
+    },
+    {
+      "path": "reports/flutter_web_wardrobe.png",
+      "bytes": 105105,
+      "sha256": "01ae2b2212caeb8485d61a74e08a84052b934892c1477ff22dcbf450dd765414"
+    },
+    {
+      "path": "reports/flutter_web_welcome.png",
+      "bytes": 101354,
+      "sha256": "a55361fe60563d73aafa7292760fe31db3ea30119c46698af97281633544303a"
+    },
+    {
+      "path": "reports/state_contract_test.log",
+      "bytes": 2731,
+      "sha256": "6b53bbfae470a12ae06a2d35846a9b3d1abb1cd7fdc3e03b1d532a5e35f5294c"
+    },
+    {
+      "path": "tools/build_file_manifest.py",
+      "bytes": 2074,
+      "sha256": "1065d3f6ac7ff1b6613925f512488dc72ef4a887f208ca9b5ab40be6e94831fa"
+    },
+    {
+      "path": "tools/verify_browser.py",
+      "bytes": 5495,
+      "sha256": "72f0fce8ab383e45a315be8f1bb8c85a27406f076f365875fdeb22bad64b4cf5"
+    },
+    {
+      "path": "tools/verify_flutter_web.py",
+      "bytes": 6788,
+      "sha256": "d35c79382e0f59b9a15cf18f131d519da2deb4d49f0c304bffeb2cbd473d255e"
+    },
+    {
+      "path": "tools/verify_state_contract.mjs",
+      "bytes": 7371,
+      "sha256": "e31eee22dbe66651844ee3f96a5c2a4bcc62c34b394b2605fb96266c155e30f3"
+    }
+  ]
+}

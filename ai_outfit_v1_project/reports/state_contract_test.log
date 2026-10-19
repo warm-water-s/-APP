@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: C01 初始化六个槽位为空
+ok 1 - C01 初始化六个槽位为空
+  ---
+  duration_ms: 1.2458
+  type: 'test'
+  ...
+# Subtest: C02 选择上衣→选中并锁定
+ok 2 - C02 选择上衣→选中并锁定
+  ---
+  duration_ms: 1.1426
+  type: 'test'
+  ...
+# Subtest: C03 类别错误拒绝
+ok 3 - C03 类别错误拒绝
+  ---
+  duration_ms: 0.6562
+  type: 'test'
+  ...
+# Subtest: C04 非个人衣柜单品拒绝
+ok 4 - C04 非个人衣柜单品拒绝
+  ---
+  duration_ms: 0.4182
+  type: 'test'
+  ...
+# Subtest: C05 锁定单品不能静默换；确认后可替换
+ok 5 - C05 锁定单品不能静默换；确认后可替换
+  ---
+  duration_ms: 0.3538
+  type: 'test'
+  ...
+# Subtest: C06 连衣裙与上下装互斥，锁定时须确认
+ok 6 - C06 连衣裙与上下装互斥，锁定时须确认
+  ---
+  duration_ms: 0.3097
+  type: 'test'
+  ...
+# Subtest: C07 连衣裙 + 鞋子是完整套装
+ok 7 - C07 连衣裙 + 鞋子是完整套装
+  ---
+  duration_ms: 0.2669
+  type: 'test'
+  ...
+# Subtest: C08 上衣 + 下装必须再有鞋子
+ok 8 - C08 上衣 + 下装必须再有鞋子
+  ---
+  duration_ms: 0.1947
+  type: 'test'
+  ...
+# Subtest: C09 切换风格不改变已选衣服
+ok 9 - C09 切换风格不改变已选衣服
+  ---
+  duration_ms: 1.3189
+  type: 'test'
+  ...
+# Subtest: C10 覆盖锁定单品的推荐原子拒绝
+ok 10 - C10 覆盖锁定单品的推荐原子拒绝
+  ---
+  duration_ms: 0.5798
+  type: 'test'
+  ...
+# Subtest: C11 非法商品推荐原子拒绝
+ok 11 - C11 非法商品推荐原子拒绝
+  ---
+  duration_ms: 0.2405
+  type: 'test'
+  ...
+# Subtest: C12 允许匹配锁定单品的合法推荐
+ok 12 - C12 允许匹配锁定单品的合法推荐
+  ---
+  duration_ms: 0.1976
+  type: 'test'
+  ...
+# Subtest: C13 空槽位禁止上锁
+ok 13 - C13 空槽位禁止上锁
+  ---
+  duration_ms: 0.1658
+  type: 'test'
+  ...
+# Subtest: C14 直接删除锁定单品拒绝，强制删除清理锁
+ok 14 - C14 直接删除锁定单品拒绝，强制删除清理锁
+  ---
+  duration_ms: 0.2007
+  type: 'test'
+  ...
+# Subtest: C15 删除真实衣服后恢复收藏应保留缺失位
+ok 15 - C15 删除真实衣服后恢复收藏应保留缺失位
+  ---
+  duration_ms: 1.6052
+  type: 'test'
+  ...
+# Subtest: C16 推荐不能让 dress 与普通上衣同时存在
+ok 16 - C16 推荐不能让 dress 与普通上衣同时存在
+  ---
+  duration_ms: 0.1346
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1933.663
